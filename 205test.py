@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urldefrag
+from datetime import datetime
 
 URL = "http://115.144.217.205/phpbbs/list.php"
 OUT_HTML = "links.html"
@@ -50,6 +51,8 @@ def main():
     html.append("<title>Extracted Links</title>")
     html.append("</head>")
     html.append("<body>")
+    html.append("<h1>205test 자동 수집</h1>")
+    html.append(f"<p>생성 시간: {datetime.now()}</p>")
     html.append(f"<h2>추출된 링크 ({len(links)}개)</h2>")
     html.append("<ul>")
 
@@ -62,6 +65,14 @@ def main():
 
     with open(OUT_HTML, "w", encoding="utf-8") as f:
         f.write("\n".join(html))
+
+    # index.html도 같이 생성 (Pages 루트 확인용)
+    with open("index.html", "w", encoding="utf-8") as f:
+        f.write(
+            "<h1>GitHub Actions 정상 동작</h1>"
+            f"<p>업데이트: {datetime.now()}</p>"
+            "<p><a href='links.html'>links.html 보기</a></p>"
+        )
 
     print(f"HTML 생성 완료: {OUT_HTML}")
     print(f"총 링크 수: {len(links)}")
